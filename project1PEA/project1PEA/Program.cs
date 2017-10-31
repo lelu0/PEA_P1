@@ -10,6 +10,8 @@ namespace project1PEA
     {
         static void Main(string[] args)
         {
+            WorldMap wm = new WorldMap(@"C:\berlin52x\berlin52.xml");
+            Console.WriteLine(wm.CityMatrix);
         }
     }
 }
