@@ -81,6 +81,30 @@ namespace project1PEA
                 }
             }
         }
-    
+
+        public List<double> RowToList(int rowNumber)
+        {
+            if(CityMatrix == null)
+                throw new EmptyMatrixException(new Exception());
+            List<double> List = new List<double>();
+            for (int i = 0; i < Cities; i++)
+            {
+                List.Add(CityMatrix[rowNumber,i]);
+            }
+            return List;
+        }
+
+        public List<double> ColumnToList(int columnNumber)
+        {
+            if (CityMatrix == null)
+                throw new EmptyMatrixException(new Exception());
+            List<double> List = new List<double>();
+            for (int i = 0; i < Cities; i++)
+            {
+                List.Add(CityMatrix[i, columnNumber]);
+            }
+            return List;
+        }
+
     }
 }
