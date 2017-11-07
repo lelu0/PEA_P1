@@ -9,9 +9,14 @@ namespace project1PEA
         {
             var minElementIndex = 0;
             var currentMin = double.MaxValue;
-
+            var wasZero = false;
             for (var i = 0; i < matrixElement.Count; i++)
             {
+                if (matrixElement[i] == 0.0 && !wasZero) //first zero in search is ignored
+                {
+                    wasZero = true;
+                    continue;
+                }
                 if (currentMin < matrixElement[i]) continue;
                 minElementIndex = i;
                 currentMin = matrixElement[i];

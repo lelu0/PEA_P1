@@ -12,6 +12,19 @@ namespace project1PEA
         public string Name { get; set; } // Name of the problem instance
         public int Cities { get; set; } //Number of cities in problem instance
 
+        public WorldMap(int cities) //Generic constructor for testing
+        {
+            Cities = cities;
+            CityMatrix = new double[cities, cities];
+            for (int i = 0; i < cities; i++)
+            {
+                for (int j = 0; j < cities; j++)
+                {
+                    if (i == j) CityMatrix[i, j] = double.MaxValue;
+                    else CityMatrix[i, j] = i + j;
+                }
+            }
+        }
         //Constructor take path to the XML File with problem instance
         public WorldMap(string filePath)
         {

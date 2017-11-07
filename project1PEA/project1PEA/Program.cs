@@ -10,8 +10,16 @@ namespace project1PEA
     {
         static void Main(string[] args)
         {
-            WorldMap wm = new WorldMap(@"C:\berlin52x\berlin52.xml");
+            //WorldMap wm = new WorldMap(@"C:\berlin52x\berlin52.xml");
             // wm.printCurrentMap();
+            ProblemInstance problem = new ProblemInstance(4);
+            problem.WorldMap.printCurrentMap();
+            Console.WriteLine();
+            problem.StandarizeMatrix();
+            problem.WorldMap.printCurrentMap();
+            Console.WriteLine();
+            problem.RefactorMatrixByMaxElement();
+            problem.WorldMap.printCurrentMap();
 
         }
     }
