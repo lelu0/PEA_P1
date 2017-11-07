@@ -15,12 +15,19 @@ namespace project1PEA
             ProblemInstance problem = new ProblemInstance(4);
             problem.WorldMap.printCurrentMap();
             Console.WriteLine();
-            problem.StandarizeMatrix();
+            problem.LB = problem.StandarizeMatrix();
             problem.WorldMap.printCurrentMap();
-            Console.WriteLine();
+            Console.WriteLine(problem.LB);
             problem.RefactorMatrixByMaxElement();
             problem.WorldMap.printCurrentMap();
+            Console.WriteLine("STEP 2");
 
+            //step 2
+            problem.StandarizeMatrix();
+            problem.WorldMap.printCurrentMap();
+            Console.WriteLine(problem.LB);
+            problem.RefactorMatrixByMaxElement();
+            problem.WorldMap.printCurrentMap();
         }
     }
 }

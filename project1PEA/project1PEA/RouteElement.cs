@@ -1,4 +1,6 @@
-﻿namespace project1PEA
+﻿using System.ComponentModel;
+
+namespace project1PEA
 {
     public class RouteElement
     {
@@ -8,6 +10,12 @@
         public RouteElement()
         {
             
+        }
+
+        public RouteElement(int start, int end)
+        {
+            Start = start;
+            End = end;
         }
     }
 }

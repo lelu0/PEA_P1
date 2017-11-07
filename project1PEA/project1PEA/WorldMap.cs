@@ -88,7 +88,10 @@ namespace project1PEA
                 {
                     for (int j = 0; j < Cities; j++)
                     {
-                        Console.Write("" + CityMatrix[i, j] + "|");
+                        if (CityMatrix[i, j] == double.MaxValue)
+                            Console.Write("" + "INF" + "|");
+                        else
+                            Console.Write("" + CityMatrix[i, j] + "|");
                     }
                     Console.WriteLine("");
                 }
