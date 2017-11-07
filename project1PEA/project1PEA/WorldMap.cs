@@ -7,7 +7,7 @@ namespace project1PEA
 {
     public class WorldMap
     {
-    
+
         public double[,] CityMatrix { get; set; } //Matrix for cities in world map
         public string Name { get; set; } // Name of the problem instance
         public int Cities { get; set; } //Number of cities in problem instance
@@ -40,7 +40,7 @@ namespace project1PEA
                 {
                     try
                     {
-                        if (routesList.Count == cityCounter-1) // if iterator at current v.add 0 (you can't travel to city where you are ;) )
+                        if (routesList.Count == cityCounter - 1) // if iterator at current v.add 0 (you can't travel to city where you are ;) )
                         {
                             routesList.Add(0);
                         }
@@ -57,7 +57,7 @@ namespace project1PEA
                     if (CityMatrix == null) //if it's first vertex create a new matrix
                         CityMatrix = new double[routesList.Count, routesList.Count];
                     for (int i = 0; i < routesList.Count; i++)
-                        CityMatrix[cityCounter-1, i] = routesList[i];
+                        CityMatrix[cityCounter - 1, i] = routesList[i];
                 }
                 if (xmlReader.NodeType == XmlNodeType.EndElement && xmlReader.Name.Equals("graph")) //Write total number of cities to property
                     Cities = cityCounter;
@@ -67,7 +67,7 @@ namespace project1PEA
 
         public void printCurrentMap()
         {
-            if(CityMatrix == null)
+            if (CityMatrix == null)
                 Console.WriteLine("Your world is empty!");
             else
             {
@@ -75,7 +75,7 @@ namespace project1PEA
                 {
                     for (int j = 0; j < Cities; j++)
                     {
-                        Console.Write(""+CityMatrix[i,j]+"|");
+                        Console.Write("" + CityMatrix[i, j] + "|");
                     }
                     Console.WriteLine("");
                 }
@@ -84,12 +84,12 @@ namespace project1PEA
 
         public List<double> RowToList(int rowNumber)
         {
-            if(CityMatrix == null)
+            if (CityMatrix == null)
                 throw new EmptyMatrixException(new Exception());
             List<double> List = new List<double>();
             for (int i = 0; i < Cities; i++)
             {
-                List.Add(CityMatrix[rowNumber,i]);
+                List.Add(CityMatrix[rowNumber, i]);
             }
             return List;
         }
@@ -106,5 +106,23 @@ namespace project1PEA
             return List;
         }
 
+        public void MatrixReduction(int row, int column)
+        {
+            var tmpMatrix = new double[Cities - 1, Cities - 1];
+            for (int i = 0; i < Cities; i++)
+            {
+                if (i == row) continue;
+                for (int j = 0; j < Cities; j++)
+                {
+                    if (j == column) continue;
+                    if (j > column)
+                        if (i > row) tmpMatrix[i - 1, j - 1] = CityMatrix[i, j]; else tmpMatrix[i, j - 1] = CityMatrix[i, j];
+                    else 
+                        if (i > row) tmpMatrix[i - 1, j] = CityMatrix[i, j]; else tmpMatrix[i, j] = CityMatrix[i, j];
+                }
+            }
+            CityMatrix = tmpMatrix;
+            Cities--;
+        }
     }
 }

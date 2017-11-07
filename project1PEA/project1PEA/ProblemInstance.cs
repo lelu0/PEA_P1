@@ -6,12 +6,50 @@ namespace project1PEA
     public class ProblemInstance
     {
         public WorldMap WorldMap { get; set; }
-        public List<int> BestRoute { get; set; }
+        public List<RouteElement> BestRoute { get; set; }
+
 
         public ProblemInstance(WorldMap worldMap)
         {
             WorldMap = worldMap;
-            BestRoute = new List<int>();
+            BestRoute = new List<RouteElement>();
+        }
+
+        public void FindMaximumElement()
+        {
+            List<double> rowMinimums = new List<double>();
+            List<double> columnMinimums = new List<double>();
+            var maxInRow = true;
+            var maxIndex = 0;
+            double maxValue = 0.0;
+            for (int i = 0; i < WorldMap.Cities; i++)
+            {
+                //Search for minimum element in row and column, then add to list
+                var minimumElementIndex = MathUtils.GetMinimumElementIndex(WorldMap.RowToList(i));
+                rowMinimums.Add(WorldMap.CityMatrix[i,minimumElementIndex]);
+                minimumElementIndex = MathUtils.GetMinimumElementIndex(WorldMap.ColumnToList(i));
+                columnMinimums.Add(WorldMap.CityMatrix[minimumElementIndex,i]);
+            }
+
+            for (int i = 0; i < WorldMap.Cities; i++)
+            {
+                if (maxValue < rowMinimums[i])
+                {
+                    maxValue = rowMinimums[i];
+                    maxIndex = i;
+                }
+            }
+            for (int i = 0; i < WorldMap.Cities; i++)
+            {
+                if (maxValue < columnMinimums[i])
+                {
+                    maxValue = columnMinimums[i];
+                    maxIndex = i;
+                    maxInRow = false;
+                }
+            }
+
+            //MATRIX REFACTOR - TODO
         }
 
         public double StandrizeRow(int rowNumber) //search for minimum element in row, then subtract it from each other expect infinity
@@ -41,6 +79,20 @@ namespace project1PEA
                 WorldMap.CityMatrix[i, columnNumber] -= WorldMap.CityMatrix[minimumElementIndex, columnNumber];
             }
             return WorldMap.CityMatrix[minimumElementIndex, columnNumber];
+        }
+
+        public double StandarizeMatrix() //standarize matrix and return LB
+        {
+            var lb = 0.0;
+            for (int i = 0; i < WorldMap.Cities; i++)
+            {
+                lb += StandrizeRow(i);
+            }
+            for (int j = 0; j < WorldMap.Cities; j++)
+            {
+                lb += StandarizeColumn(j);
+            }
+            return lb;
         }
 
         
