@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dynamic.cs" />
     <Compile Include="EmptyMatrixException.cs" />
     <Compile Include="MathUtils.cs" />
     <Compile Include="ProblemInstance.cs" />
