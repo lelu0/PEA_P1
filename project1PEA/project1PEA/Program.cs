@@ -12,8 +12,9 @@ namespace project1PEA
         {
             //WorldMap wm = new WorldMap(@"C:\berlin52x\berlin52.xml");
             // wm.printCurrentMap();
-           Dynamic dyn = new Dynamic();
-            Console.WriteLine(dyn.SolveProblem());
+            
+           ProblemInstance problemInstance = new ProblemInstance(new WorldMap(9));
+           problemInstance.Solve();
 
         }
     }

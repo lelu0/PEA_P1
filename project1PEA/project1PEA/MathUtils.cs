@@ -24,5 +24,33 @@ namespace project1PEA
 
         }
 
+        public static LiveNode GetMinCostNode(List<LiveNode> liveNodes)
+        {
+            LiveNode min = new LiveNode();
+            min.Cost = double.MaxValue;
+            foreach (var liveNode in liveNodes)
+            {
+                if (liveNode.Cost < min.Cost)
+                    min = liveNode;
+            }
+            return min;
+        }
+        public static int GetMinCostNodeIndex(List<LiveNode> liveNodes)
+        {
+            double min = double.MaxValue;
+            int minIndex = 0;
+            for (int i = 0; i < liveNodes.Count; i++)
+            {
+
+                if (liveNodes[i].Cost < min)
+                {
+                    min = liveNodes[i].Cost;
+                    minIndex = i;
+                }
+                        
+                
+            }
+            return minIndex;
+        }
     }
 }

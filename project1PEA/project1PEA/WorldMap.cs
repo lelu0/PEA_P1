@@ -25,6 +25,13 @@ namespace project1PEA
                 }
             }
         }
+
+        public WorldMap(double[,] matrix)
+        {
+            CityMatrix = matrix;
+            Cities = CityMatrix.GetLength(0);
+
+        }
         //Constructor take path to the XML File with problem instance
         public WorldMap(string filePath)
         {

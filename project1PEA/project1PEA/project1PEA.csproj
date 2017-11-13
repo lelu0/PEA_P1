@@ -43,15 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dynamic.cs" />
-    <Compile Include="Element.cs" />
     <Compile Include="EmptyMatrixException.cs" />
     <Compile Include="LiveNode.cs" />
     <Compile Include="MathUtils.cs" />
     <Compile Include="ProblemInstance.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RouteElement.cs" />
     <Compile Include="WorldMap.cs" />
   </ItemGroup>
   <ItemGroup>

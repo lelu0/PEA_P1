@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace project1PEA
@@ -12,10 +13,10 @@ namespace project1PEA
         public List<int[]> Path { get; set; }   
         public LiveNode(List<int[]> lowerPath, double[,] lowerMatrix, int l, int start, int end, int cities )
         {
-            Path = lowerPath;
+            Path = new List<int[]>(lowerPath);
             if (l != 0)
                 Path.Add(new []{start,end});
-            NodeMatrix = lowerMatrix;
+            NodeMatrix = (double[,]) lowerMatrix.Clone();
             for (int i = 0; l != 0 && i < cities ; i++)
             {
                 NodeMatrix[start, i] = double.MaxValue;
@@ -25,6 +26,78 @@ namespace project1PEA
             Level = l;
             Vertex = end;
 
+        }
+        public LiveNode() { }
+        //----------------------------------------------------------------------------------
+        public List<double> RowToList(int rowNumber)
+        {
+            if (NodeMatrix == null)
+                throw new EmptyMatrixException(new Exception());
+            List<double> List = new List<double>();
+            for (int i = 0; i < NodeMatrix.GetLength(0); i++)
+            {
+                List.Add(NodeMatrix[rowNumber, i]);
+            }
+            return List;
+        }
+        public List<double> ColumnToList(int columnNumber)
+        {
+            if (NodeMatrix == null)
+                throw new EmptyMatrixException(new Exception());
+            List<double> List = new List<double>();
+            for (int i = 0; i < NodeMatrix.GetLength(0); i++)
+            {
+                List.Add(NodeMatrix[i, columnNumber]);
+            }
+            return List;
+        }
+
+        public double StandrizeRow(int rowNumber) //search for minimum element in row, then subtract it from each other expect infinity
+        {
+            if (NodeMatrix.GetLength(0) == 0) throw new EmptyMatrixException(new Exception());
+            //Search for minimum element
+            var minimumElementIndex = MathUtils.GetMinimumElementIndex(RowToList(rowNumber));
+            //subtract minimum element from each other
+            var minimumElement = NodeMatrix[rowNumber, minimumElementIndex];
+            for (int i = 0; i < NodeMatrix.GetLength(0); i++)
+            {
+                if (NodeMatrix[rowNumber, i] == double.MaxValue) continue;
+                NodeMatrix[rowNumber, i] -= minimumElement;
+            }
+            if (minimumElement != double.MaxValue)
+                return minimumElement;
+            return 0;
+        }
+
+        public double StandarizeColumn(int columnNumber)
+        {
+            if (NodeMatrix == null) throw new EmptyMatrixException(new Exception());
+            //Search for minimum element
+            var minimumElementIndex = MathUtils.GetMinimumElementIndex(ColumnToList(columnNumber));
+            //subtract minimum element from each other
+            var minimumElement = NodeMatrix[minimumElementIndex, columnNumber];
+            for (int i = 0; i < NodeMatrix.GetLength(0); i++)
+            {
+                if (NodeMatrix[i, columnNumber] == double.MaxValue) continue;
+                NodeMatrix[i, columnNumber] -= minimumElement;
+            }
+            if (minimumElement != double.MaxValue)
+                return minimumElement;
+            return 0;
+        }
+
+        public void StandarizeMatrix() //standarize matrix and return LB
+        {
+            var lb = 0.0;
+            for (int i = 0; i < NodeMatrix.GetLength(0); i++)
+            {
+                lb += StandrizeRow(i);
+            }
+            for (int j = 0; j < NodeMatrix.GetLength(0); j++)
+            {
+                lb += StandarizeColumn(j);
+            }
+            Cost = lb;
         }
     }
 }

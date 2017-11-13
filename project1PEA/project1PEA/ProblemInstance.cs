@@ -6,7 +6,6 @@ namespace project1PEA
     public class ProblemInstance
     {
         public WorldMap WorldMap { get; set; }
-        public List<RouteElement> BestRoute { get; set; }
         public double LB { get; set; }
         public List<int> RowList { get; set; }
         public List<int> ColumnList { get; set; }
@@ -14,7 +13,6 @@ namespace project1PEA
         public ProblemInstance(WorldMap worldMap)
         {
             WorldMap = worldMap;
-            BestRoute = new List<RouteElement>();
             RowList = new List<int>(WorldMap.Cities);
             ColumnList = new List<int>(WorldMap.Cities);
             for (int i = 0; i < WorldMap.Cities; i++)
@@ -26,7 +24,6 @@ namespace project1PEA
         public ProblemInstance(int cities)
         {
             WorldMap = new WorldMap(cities);
-            BestRoute = new List<RouteElement>();
             RowList = new List<int>(cities);
             ColumnList = new List<int>(cities);
             for (int i = 0; i < cities; i++)
@@ -36,59 +33,61 @@ namespace project1PEA
             }
         }
 
+        public void PrintPath(List<int[]> path)
+        {
+            foreach (var p in path)
+            {
+                Console.WriteLine(p[0] + " -> " + p[1]);
+            }
+        }
+
         public void Solve()
         {
             List<LiveNode> liveNodes = new List<LiveNode>();
             List<int[]> path = new List<int[]>();
             
             //creating of root node 
-            //TODO reduction 
+            liveNodes.Add(new LiveNode(path,WorldMap.CityMatrix,0,-1,0,WorldMap.Cities));
+
+            //calculate LB of path
+            liveNodes[0].StandarizeMatrix();
+
+            while (liveNodes.Count != 0)
+            {
+                LiveNode minNode = MathUtils.GetMinCostNode(liveNodes); //find a node with min estimated cost
+                liveNodes.RemoveAt(MathUtils.GetMinCostNodeIndex(liveNodes));
+                int currentCity = minNode.Vertex;
+
+                //if all city has been visited
+                if (minNode.Level == WorldMap.Cities-1)
+                {
+                    //return to start
+                    minNode.Path.Add(new []{currentCity,0});
+                    PrintPath(minNode.Path);
+                    Console.WriteLine("Optimal cost = "+minNode.Cost);
+                    return;
+                }
+
+                //loop for each child
+                for (int i = 0; i < WorldMap.Cities; i++)
+                {
+                    if (minNode.NodeMatrix[currentCity, i] != double.MaxValue)
+                    {
+                        //create a new node and calculate it cost
+                        
+                        LiveNode childNode = new LiveNode(minNode.Path, minNode.NodeMatrix, minNode.Level+1,currentCity,i,WorldMap.Cities);
+                        //Child node cost = Cost to travel to previous city + cost of travel from prev city to child city + lower bound of child node (calculated while matrix is reduct)
+                        childNode.StandarizeMatrix();
+                        childNode.Cost += minNode.Cost + minNode.NodeMatrix[currentCity, i];
+                        //add child to list
+                        liveNodes.Add(childNode);
+                    }
+                }
+            }
+
         }
 
-        public double StandrizeRow(int rowNumber) //search for minimum element in row, then subtract it from each other expect infinity
-        {
-            
-            if (WorldMap.CityMatrix == null) throw new EmptyMatrixException(new Exception());
-            //Search for minimum element
-            var minimumElementIndex = MathUtils.GetMinimumElementIndex(WorldMap.RowToList(rowNumber));
-            //subtract minimum element from each other
-            var minimumElement = WorldMap.CityMatrix[rowNumber, minimumElementIndex];
-            for (int i = 0; i < WorldMap.Cities; i++)
-            {
-                if(WorldMap.CityMatrix[rowNumber,i] == double.MaxValue) continue;
-                WorldMap.CityMatrix[rowNumber, i] -= minimumElement;
-            }
-            return minimumElement;
-        }
-
-        public double StandarizeColumn(int columnNumber)
-        {
-            if (WorldMap.CityMatrix == null) throw new EmptyMatrixException(new Exception());
-            //Search for minimum element
-            var minimumElementIndex = MathUtils.GetMinimumElementIndex(WorldMap.ColumnToList(columnNumber));
-            //subtract minimum element from each other
-            var minimumElement = WorldMap.CityMatrix[minimumElementIndex, columnNumber];
-            for (int i = 0; i < WorldMap.Cities; i++)
-            {
-                if (WorldMap.CityMatrix[i, columnNumber] == double.MaxValue) continue;
-                WorldMap.CityMatrix[i, columnNumber] -= minimumElement;
-            }
-            return minimumElement;
-        }
-
-        public double StandarizeMatrix() //standarize matrix and return LB
-        {
-            var lb = 0.0;
-            for (int i = 0; i < WorldMap.Cities; i++)
-            {
-                lb += StandrizeRow(i);
-            }
-            for (int j = 0; j < WorldMap.Cities; j++)
-            {
-                lb += StandarizeColumn(j);
-            }
-            return lb;
-        }
+        
 
         
         
