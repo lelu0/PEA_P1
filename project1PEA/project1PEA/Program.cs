@@ -13,8 +13,10 @@ namespace project1PEA
             //WorldMap wm = new WorldMap(@"C:\berlin52x\berlin52.xml");
             // wm.printCurrentMap();
             
-           ProblemInstance problemInstance = new ProblemInstance(new WorldMap(9));
-           problemInstance.Solve();
+           //ProblemInstance problemInstance = new ProblemInstance(new WorldMap(9));
+           //problemInstance.Solve();
+           Tests test = new Tests(20);
+            test.DoSeriesTest(10, true, true);
 
         }
     }

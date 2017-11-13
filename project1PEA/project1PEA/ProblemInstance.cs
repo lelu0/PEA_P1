@@ -7,30 +7,15 @@ namespace project1PEA
     {
         public WorldMap WorldMap { get; set; }
         public double LB { get; set; }
-        public List<int> RowList { get; set; }
-        public List<int> ColumnList { get; set; }
+
 
         public ProblemInstance(WorldMap worldMap)
         {
             WorldMap = worldMap;
-            RowList = new List<int>(WorldMap.Cities);
-            ColumnList = new List<int>(WorldMap.Cities);
-            for (int i = 0; i < WorldMap.Cities; i++)
-            {
-                RowList.Add(i);
-                ColumnList.Add(i);
-            }
         }
         public ProblemInstance(int cities)
         {
             WorldMap = new WorldMap(cities);
-            RowList = new List<int>(cities);
-            ColumnList = new List<int>(cities);
-            for (int i = 0; i < cities; i++)
-            {
-                RowList.Add(i);
-                ColumnList.Add(i);
-            }
         }
 
         public void PrintPath(List<int[]> path)
@@ -41,13 +26,13 @@ namespace project1PEA
             }
         }
 
-        public void Solve()
+        public void Solve(bool printPath = true, bool printResult = true)
         {
             List<LiveNode> liveNodes = new List<LiveNode>();
             List<int[]> path = new List<int[]>();
-            
+
             //creating of root node 
-            liveNodes.Add(new LiveNode(path,WorldMap.CityMatrix,0,-1,0,WorldMap.Cities));
+            liveNodes.Add(new LiveNode(path, WorldMap.CityMatrix, 0, -1, 0, WorldMap.Cities));
 
             //calculate LB of path
             liveNodes[0].StandarizeMatrix();
@@ -59,12 +44,14 @@ namespace project1PEA
                 int currentCity = minNode.Vertex;
 
                 //if all city has been visited
-                if (minNode.Level == WorldMap.Cities-1)
+                if (minNode.Level == WorldMap.Cities - 1)
                 {
                     //return to start
-                    minNode.Path.Add(new []{currentCity,0});
-                    PrintPath(minNode.Path);
-                    Console.WriteLine("Optimal cost = "+minNode.Cost);
+                    minNode.Path.Add(new[] { currentCity, 0 });
+                    if (printPath)
+                        PrintPath(minNode.Path);
+                    if (printResult)
+                        Console.WriteLine("Optimal cost = " + minNode.Cost);
                     return;
                 }
 
@@ -74,8 +61,8 @@ namespace project1PEA
                     if (minNode.NodeMatrix[currentCity, i] != double.MaxValue)
                     {
                         //create a new node and calculate it cost
-                        
-                        LiveNode childNode = new LiveNode(minNode.Path, minNode.NodeMatrix, minNode.Level+1,currentCity,i,WorldMap.Cities);
+
+                        LiveNode childNode = new LiveNode(minNode.Path, minNode.NodeMatrix, minNode.Level + 1, currentCity, i, WorldMap.Cities);
                         //Child node cost = Cost to travel to previous city + cost of travel from prev city to child city + lower bound of child node (calculated while matrix is reduct)
                         childNode.StandarizeMatrix();
                         childNode.Cost += minNode.Cost + minNode.NodeMatrix[currentCity, i];
@@ -87,9 +74,9 @@ namespace project1PEA
 
         }
 
-        
 
-        
-        
+
+
+
     }
 }

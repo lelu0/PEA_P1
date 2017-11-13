@@ -14,6 +14,7 @@ namespace project1PEA
 
         public WorldMap(int cities) //Generic constructor for testing
         {
+            Random rn = new Random();
             Cities = cities;
             CityMatrix = new double[cities, cities];
             for (int i = 0; i < cities; i++)
@@ -21,7 +22,7 @@ namespace project1PEA
                 for (int j = 0; j < cities; j++)
                 {
                     if (i == j) CityMatrix[i, j] = double.MaxValue;
-                    else CityMatrix[i, j] = i + j;
+                    else CityMatrix[i, j] = rn.NextDouble() * 10;
                 }
             }
         }
