@@ -85,6 +85,7 @@ namespace project1PEA
                 if (xmlReader.NodeType == XmlNodeType.EndElement && xmlReader.Name.Equals("graph")) //Write total number of cities to property
                     Cities = cityCounter;
             }
+            xmlReader.Close();
             xmlReader = null;
             GC.Collect();
         }

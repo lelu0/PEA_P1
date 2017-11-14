@@ -34,13 +34,13 @@ namespace project1PEA
 
             //calculate LB of path
             liveNodes[0].StandarizeMatrix();
-
+            LiveNode minNode;
             while (liveNodes.Count != 0)
             {
-                LiveNode minNode = MathUtils.GetMinCostNode(liveNodes); //find a node with min estimated cost
+                minNode  = MathUtils.GetMinCostNode(liveNodes); //find a node with min estimated cost
                 var minNodeIndex = MathUtils.GetMinCostNodeIndex(liveNodes);
-               // liveNodes[minNodeIndex] = null;
-                liveNodes.RemoveAt(MathUtils.GetMinCostNodeIndex(liveNodes));
+                liveNodes[minNodeIndex] = null;
+                liveNodes.RemoveAt(minNodeIndex);
                 int currentCity = minNode.Vertex;
 
                 //if all city has been visited
@@ -67,8 +67,10 @@ namespace project1PEA
                         childNode.Cost += minNode.Cost + minNode.NodeMatrix[currentCity, i];
                         //add child to list
                         liveNodes.Add(childNode);
+                        childNode = null;
                     }
                 }
+                minNode = null;
             }
         }
 
