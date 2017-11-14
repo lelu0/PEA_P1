@@ -63,7 +63,8 @@ namespace project1PEA
                     {
                         if (routesList.Count == cityCounter - 1) // if iterator at current v.add 0 (you can't travel to city where you are ;) )
                         {
-                            routesList.Add(0);
+                            routesList.Add(double.MaxValue);
+                            continue;
                         }
                         var tmp = double.Parse(xmlReader.GetAttribute("cost"), NumberStyles.AllowExponent | NumberStyles.Float, CultureInfo.InvariantCulture); //Converstion from text string in exposition for to double, result in meters
                         routesList.Add(tmp);
@@ -79,74 +80,35 @@ namespace project1PEA
                         CityMatrix = new double[routesList.Count, routesList.Count];
                     for (int i = 0; i < routesList.Count; i++)
                         CityMatrix[cityCounter - 1, i] = routesList[i];
+                    lastXmlElement = "";
                 }
                 if (xmlReader.NodeType == XmlNodeType.EndElement && xmlReader.Name.Equals("graph")) //Write total number of cities to property
                     Cities = cityCounter;
             }
-
+            xmlReader = null;
+            GC.Collect();
         }
 
-        public void printCurrentMap()
-        {
-            if (CityMatrix == null)
-                Console.WriteLine("Your world is empty!");
-            else
-            {
-                for (int i = 0; i < Cities; i++)
-                {
-                    for (int j = 0; j < Cities; j++)
-                    {
-                        if (CityMatrix[i, j] == double.MaxValue)
-                            Console.Write("" + "INF" + "|");
-                        else
-                            Console.Write("" + CityMatrix[i, j] + "|");
-                    }
-                    Console.WriteLine("");
-                }
-            }
-        }
-
-        public List<double> RowToList(int rowNumber)
-        {
-            if (CityMatrix == null)
-                throw new EmptyMatrixException(new Exception());
-            List<double> List = new List<double>();
-            for (int i = 0; i < Cities; i++)
-            {
-                List.Add(CityMatrix[rowNumber, i]);
-            }
-            return List;
-        }
-
-        public List<double> ColumnToList(int columnNumber)
-        {
-            if (CityMatrix == null)
-                throw new EmptyMatrixException(new Exception());
-            List<double> List = new List<double>();
-            for (int i = 0; i < Cities; i++)
-            {
-                List.Add(CityMatrix[i, columnNumber]);
-            }
-            return List;
-        }
-
-        public void MatrixReduction(int row, int column)
-        {
-            var tmpMatrix = new double[Cities - 1, Cities - 1];
-            for (int i = 0; i < Cities; i++)
-            {
-                if (i == row) continue;
-                for (int j = 0; j < Cities; j++)
-                {
-                    if (j == column) continue;
-                    if (j > column)
-                        if (i > row) tmpMatrix[i - 1, j - 1] = CityMatrix[i, j]; else tmpMatrix[i, j - 1] = CityMatrix[i, j];
-                    else 
-                        if (i > row) tmpMatrix[i - 1, j] = CityMatrix[i, j]; else tmpMatrix[i, j] = CityMatrix[i, j];
-                }
-            }
-            CityMatrix = tmpMatrix;
-            Cities--;
-        }
+        
+        //public void printCurrentMap()
+        //{
+        //    if (CityMatrix == null)
+        //        Console.WriteLine("Your world is empty!");
+        //    else
+        //    {
+        //        for (int i = 0; i < Cities; i++)
+        //        {
+        //            for (int j = 0; j < Cities; j++)
+        //            {
+        //                if (CityMatrix[i, j] == double.MaxValue)
+        //                    Console.Write("" + "INF" + "|");
+        //                else
+        //                    Console.Write("" + CityMatrix[i, j] + "|");
+        //            }
+        //            Console.WriteLine("");
+        //        }
+        //    }
+        //}
+        
     }
 }

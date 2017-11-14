@@ -15,8 +15,9 @@ namespace project1PEA
             
            //ProblemInstance problemInstance = new ProblemInstance(new WorldMap(9));
            //problemInstance.Solve();
-           Tests test = new Tests(20);
-            test.DoSeriesTest(10, true, true);
+            Tests test = new Tests(@"C:\ftv33.xml");
+            Console.WriteLine("Test for ftv33");
+            test.DoSeriesTest(10, true, false);
 
         }
     }

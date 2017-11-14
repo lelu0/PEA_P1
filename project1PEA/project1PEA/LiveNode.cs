@@ -33,23 +33,23 @@ namespace project1PEA
         {
             if (NodeMatrix == null)
                 throw new EmptyMatrixException(new Exception());
-            List<double> List = new List<double>();
+            List<double> list = new List<double>();
             for (int i = 0; i < NodeMatrix.GetLength(0); i++)
             {
-                List.Add(NodeMatrix[rowNumber, i]);
+                list.Add(NodeMatrix[rowNumber, i]);
             }
-            return List;
+            return list;
         }
         public List<double> ColumnToList(int columnNumber)
         {
             if (NodeMatrix == null)
                 throw new EmptyMatrixException(new Exception());
-            List<double> List = new List<double>();
+            List<double> list = new List<double>();
             for (int i = 0; i < NodeMatrix.GetLength(0); i++)
             {
-                List.Add(NodeMatrix[i, columnNumber]);
+                list.Add(NodeMatrix[i, columnNumber]);
             }
-            return List;
+            return list;
         }
 
         public double StandrizeRow(int rowNumber) //search for minimum element in row, then subtract it from each other expect infinity

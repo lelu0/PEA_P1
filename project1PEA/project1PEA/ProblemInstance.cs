@@ -6,9 +6,7 @@ namespace project1PEA
     public class ProblemInstance
     {
         public WorldMap WorldMap { get; set; }
-        public double LB { get; set; }
-
-
+        
         public ProblemInstance(WorldMap worldMap)
         {
             WorldMap = worldMap;
@@ -40,6 +38,8 @@ namespace project1PEA
             while (liveNodes.Count != 0)
             {
                 LiveNode minNode = MathUtils.GetMinCostNode(liveNodes); //find a node with min estimated cost
+                var minNodeIndex = MathUtils.GetMinCostNodeIndex(liveNodes);
+               // liveNodes[minNodeIndex] = null;
                 liveNodes.RemoveAt(MathUtils.GetMinCostNodeIndex(liveNodes));
                 int currentCity = minNode.Vertex;
 
@@ -61,7 +61,6 @@ namespace project1PEA
                     if (minNode.NodeMatrix[currentCity, i] != double.MaxValue)
                     {
                         //create a new node and calculate it cost
-
                         LiveNode childNode = new LiveNode(minNode.Path, minNode.NodeMatrix, minNode.Level + 1, currentCity, i, WorldMap.Cities);
                         //Child node cost = Cost to travel to previous city + cost of travel from prev city to child city + lower bound of child node (calculated while matrix is reduct)
                         childNode.StandarizeMatrix();
@@ -71,7 +70,6 @@ namespace project1PEA
                     }
                 }
             }
-
         }
 
 

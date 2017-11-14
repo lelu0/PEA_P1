@@ -34,13 +34,14 @@ namespace project1PEA
             List<double> results = new List<double>();
             for (int i = 0; i < tests; i++)
             {
+                Console.WriteLine("Start test "+i +" at "+ DateTime.Now);
                 Stopwatch watch = new System.Diagnostics.Stopwatch();
                 watch.Start();
                 ProblemInstance.Solve(false,false);
                 watch.Stop();
                 double elapsedMs = watch.ElapsedMilliseconds;
                 if(printResults)
-                    Console.WriteLine("Test " + i +": " + elapsedMs + " ms");
+                    Console.WriteLine("Test " + i +": " + elapsedMs + " ms" + " at " + DateTime.Now);
                 results.Add(elapsedMs);
                 if(generateNewMap)
                     ProblemInstance.WorldMap = new WorldMap(Cities);

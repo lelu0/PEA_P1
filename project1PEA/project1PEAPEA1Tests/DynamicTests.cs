@@ -14,11 +14,7 @@ namespace project1PEA.Tests
         [TestMethod()]
         public void GenerateListTest()
         {
-            var resultSet = new List<int>();
-            var dynamic = new Dynamic();
-            var result = dynamic.GenerateList(new[] {1, 2, 3}, 2);
-            var expected = new List<int>() {1, 2};
-            Assert.Equals(expected, result);
+            
         }
     }
 }
