@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="project1PEA.EmptyMatrixException">
+    <Position X="3.5" Y="4" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EmptyMatrixException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="project1PEA.LiveNode">
+    <Position X="3.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AkAgAAAAACABAAIAAAAAABAAAAAAAAABAAAgAAABAAA=</HashCode>
+      <FileName>LiveNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="project1PEA.MathUtils">
+    <Position X="5.75" Y="0.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>MathUtils.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="project1PEA.ProblemInstance">
+    <Position X="9.25" Y="4" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAoIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ProblemInstance.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="project1PEA.Program">
+    <Position X="9.25" Y="2.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="project1PEA.Tests">
+    <Position X="9.25" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIEAAAAAEAAAA=</HashCode>
+      <FileName>Tests.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="project1PEA.WorldMap">
+    <Position X="5.75" Y="2.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>WorldMap.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

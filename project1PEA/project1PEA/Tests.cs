@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 
 namespace project1PEA
 {
@@ -9,9 +10,9 @@ namespace project1PEA
         public ProblemInstance ProblemInstance { get; set; }
         public int Cities { get; set; }
 
-        public Tests(string filePath)
+        public Tests(string filePath, bool skipStartCity = true)
         {
-            ProblemInstance = new ProblemInstance(new WorldMap(filePath));
+            ProblemInstance = new ProblemInstance(new WorldMap(filePath, skipStartCity));
         }
 
         public Tests(int cities)
@@ -29,24 +30,29 @@ namespace project1PEA
             return elapsedMs;
         }
 
-        public List<double> DoSeriesTest(int tests, bool printResults, bool generateNewMap)
+        public List<double> DoSeriesTest(int tests, bool printResults, bool generateNewMap, bool generateResultCsv)
         {
             List<double> results = new List<double>();
+            StreamWriter resultFile = null;
+            if(generateResultCsv)
+                resultFile = new StreamWriter("result.csv");
             for (int i = 0; i < tests; i++)
             {
-                Console.WriteLine("Start test "+i +" at "+ DateTime.Now);
+                Console.WriteLine("Start test " + i + " at " + DateTime.Now);
                 Stopwatch watch = new System.Diagnostics.Stopwatch();
                 watch.Start();
-                ProblemInstance.Solve(false,false);
+                ProblemInstance.Solve(printResults, printResults);
                 watch.Stop();
                 double elapsedMs = watch.ElapsedMilliseconds;
-                if(printResults)
-                    Console.WriteLine("Test " + i +": " + elapsedMs + " ms" + " at " + DateTime.Now);
+                if (printResults)
+                    Console.WriteLine("Test " + i + ": " + elapsedMs + " ms" + " at " + DateTime.Now);
                 results.Add(elapsedMs);
-                if(generateNewMap)
+                if(generateResultCsv)
+                    resultFile.WriteLine(elapsedMs);
+                if (generateNewMap)
                     ProblemInstance.WorldMap = new WorldMap(Cities);
             }
-            
+            if(generateResultCsv) resultFile.Close();
             return results;
         }
     }

@@ -34,7 +34,7 @@ namespace project1PEA
 
         }
         //Constructor take path to the XML File with problem instance
-        public WorldMap(string filePath)
+        public WorldMap(string filePath, bool skipStartCity = true)
         {
             var xmlReader = new XmlTextReader(filePath);
             string lastXmlElement = ""; //Last readed element in XML conversion
@@ -61,12 +61,14 @@ namespace project1PEA
                 {
                     try
                     {
-                        if (routesList.Count == cityCounter - 1) // if iterator at current v.add 0 (you can't travel to city where you are ;) )
+                        if (routesList.Count == cityCounter - 1) // if iterator at current v.add inf (you can't travel to city where you are ;) )
                         {
                             routesList.Add(double.MaxValue);
-                            continue;
+                            if(!skipStartCity)
+                                continue;
                         }
                         var tmp = double.Parse(xmlReader.GetAttribute("cost"), NumberStyles.AllowExponent | NumberStyles.Float, CultureInfo.InvariantCulture); //Converstion from text string in exposition for to double, result in meters
+
                         routesList.Add(tmp);
                     }
                     catch (Exception e)
@@ -78,16 +80,21 @@ namespace project1PEA
                 {
                     if (CityMatrix == null) //if it's first vertex create a new matrix
                         CityMatrix = new double[routesList.Count, routesList.Count];
+                    
                     for (int i = 0; i < routesList.Count; i++)
                         CityMatrix[cityCounter - 1, i] = routesList[i];
                     lastXmlElement = "";
                 }
                 if (xmlReader.NodeType == XmlNodeType.EndElement && xmlReader.Name.Equals("graph")) //Write total number of cities to property
+                {
                     Cities = cityCounter;
+                    if (skipStartCity)
+                        CityMatrix[Cities-1, Cities-1] = double.MaxValue;
+                }
             }
             xmlReader.Close();
             xmlReader = null;
-            GC.Collect();
+           
         }
 
         
