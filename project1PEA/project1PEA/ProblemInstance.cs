@@ -16,7 +16,7 @@ namespace project1PEA
             WorldMap = new WorldMap(cities);
         }
 
-        public void PrintPath(List<int[]> path)
+        public void PrintPath(List<int[]> path) 
         {
             foreach (var p in path)
             {

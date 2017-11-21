@@ -98,25 +98,6 @@ namespace project1PEA
         }
 
         
-        //public void printCurrentMap()
-        //{
-        //    if (CityMatrix == null)
-        //        Console.WriteLine("Your world is empty!");
-        //    else
-        //    {
-        //        for (int i = 0; i < Cities; i++)
-        //        {
-        //            for (int j = 0; j < Cities; j++)
-        //            {
-        //                if (CityMatrix[i, j] == double.MaxValue)
-        //                    Console.Write("" + "INF" + "|");
-        //                else
-        //                    Console.Write("" + CityMatrix[i, j] + "|");
-        //            }
-        //            Console.WriteLine("");
-        //        }
-        //    }
-        //}
         
     }
 }
