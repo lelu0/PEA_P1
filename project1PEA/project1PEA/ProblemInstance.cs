@@ -6,7 +6,7 @@ namespace project1PEA
     public class ProblemInstance
     {
         public WorldMap WorldMap { get; set; }
-        
+        public ProblemInstance() { }
         public ProblemInstance(WorldMap worldMap)
         {
             WorldMap = worldMap;

@@ -49,6 +49,9 @@
     <Compile Include="ProblemInstance.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SalesmanAlgorithm.cs" />
+    <Compile Include="TabuElement.cs" />
+    <Compile Include="TabuSearch.cs" />
     <Compile Include="Tests.cs" />
     <Compile Include="WorldMap.cs" />
   </ItemGroup>

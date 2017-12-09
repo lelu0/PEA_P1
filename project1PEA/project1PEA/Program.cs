@@ -26,6 +26,16 @@ namespace project1PEA
             Tests test = new Tests(@"C:\gr17.xml",true);
             test.DoSeriesTest(50, false, false, true);
             */
+            WorldMap wm = new WorldMap(20);
+            TabuSearch tbSearch = new TabuSearch(wm,2,2);
+            tbSearch.TabuList = new List<TabuElement>();
+            tbSearch.TabuList.Add(new TabuElement(3,2));
+            tbSearch.TabuList.Add(new TabuElement(2,1));
+            tbSearch.VerifyTabuList();
+            tbSearch.CreateBaseSolution();
+            Console.WriteLine("Done");
+            tbSearch.SolutionToPath();
+            tbSearch.PrintPath(tbSearch.Path);
 
             Console.ReadLine();
         }
