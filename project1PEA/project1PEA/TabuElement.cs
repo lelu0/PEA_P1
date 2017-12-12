@@ -1,14 +1,21 @@
-﻿namespace project1PEA
+﻿using System.Collections.Generic;
+
+namespace project1PEA
 {
     internal class TabuElement
     {
-        public int Index { get; set; }
+        public List<int> Pair { get; set; }
         public int Cadence { get; set; }
 
-        public TabuElement(int index, int cadence)
+        public TabuElement(List<int> pair, int cadence)
         {
-            Index = index;
+            Pair = pair;
             Cadence = cadence;
+        }
+
+        public bool IsEqual(List<int> pair)
+        {
+            return ((pair[0] == Pair[0] && pair[1] == Pair[1]) || (pair[1] == Pair[0] && pair[0] == Pair[1]));
         }
     }
 }

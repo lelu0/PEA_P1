@@ -37,7 +37,26 @@ namespace project1PEA
             WorldMap = new WorldMap(cities);
         }
 
+        public void Solve()
+        {
+            //Step 1
+            CreateBaseSolution();
+            //Step 2
+            var lastCandidate = Solution;
+            while (true) //TODO finish statement
+            {
+                //Step 3
+                var bestInNeighborhood= GetBestInNeighborhood(GenerateNeighborhood(lastCandidate));
+                //Step 4
+                var changed = GetChangedPair(bestInNeighborhood,lastCandidate);
+                if (SearchOnTabuList(changed))
+                {
+                   
+                }
 
+
+            }
+        }
 
         public void CreateBaseSolution()
         {
@@ -68,10 +87,10 @@ namespace project1PEA
 
         public void Restart() //if first candidate in buffer is equal current solution create random based solution
         {
-            if (Solution == SolutionsList[0])
+            if (Solution != SolutionsList[0])
             {
                 Solution = SolutionsList[0];
-                MoveSolutionsBuffer();
+                AddToTabuBuffer(Solution);
             }
             else
             {
@@ -95,11 +114,84 @@ namespace project1PEA
             return false;
         }
 
-        public void MoveSolutionsBuffer() //FIFO buffer: 2,3,6.add(4) -> 3,6,4 
+        public List<List<int>> GenerateNeighborhood(List<int> solution) //generating by Vertex Exchange (VertexEx)
+        {
+            List<List<int>> hood = new List<List<int>>();
+            for (int i = 0; i < solution.Count; i++)
+            {
+                for (int j = 0; j < solution.Count; j++)
+                {
+                    if (i == j) continue;
+                    List<int> tmpSolution = new List<int>(solution);
+                    var toSwapElement = solution[i];
+                    tmpSolution[i] = tmpSolution[j];
+                    tmpSolution[j] = toSwapElement;
+                    hood.Add(new List<int>(tmpSolution));
+                }
+            }
+            return hood;
+        }
+
+        public List<int> GetBestInNeighborhood(List<List<int>> hood)
+        {
+            List<int> bestInHood = new List<int>();
+            var currentBestValue = double.MaxValue;
+            foreach (var solution in hood)
+            {
+                if(GetSolutionCost(solution) < currentBestValue) bestInHood = new List<int>(solution);
+            }
+            return bestInHood;
+        }
+
+        public double GetSolutionCost(List<int> solutions)
+        {
+            var cost = 0.0;
+            for (int i = 0; i < Solution.Count - 1; i++)
+            {
+                cost += WorldMap.CityMatrix[Solution[i], Solution[i + 1]];
+            }
+            return cost;
+        }
+
+        
+        public void AddToTabuBuffer(List<int> solution) //FIFO buffer: 2,3,6.add(4) -> 3,6,4 
         {
             if (SolutionsList.Count >= 5)
                 SolutionsList.RemoveAt(0);
-            SolutionsList.Add(Solution);
+            SolutionsList.Add(solution);
+        }
+
+        public bool CompareSolutions(List<int> candidate)
+        {
+            return GetSolutionCost(Solution) > GetSolutionCost(candidate);
+        }
+
+        public List<int> GetChangedPair(List<int> candidate, List<int> lastCandidate)
+        {
+            var pair = new List<int>();
+            for (int i = 0; i < candidate.Count; i++)
+            {
+                if (candidate[i] != lastCandidate[i])
+                {
+                    pair.Add(candidate[i]);
+                }
+            }
+            return pair;
+
+        }
+
+        public bool SearchOnTabuList(List<int> pair)
+        {
+            foreach (var tabuElement in TabuList)
+            {
+                if (tabuElement.IsEqual(pair)) return true;
+            }
+            return false;
+        }
+
+        public bool CheckAspiration(List<int> pair)
+        {
+            return (WorldMap.CityMatrix[pair[0],pair[0]+1])
         }
     }
 }
