@@ -10,31 +10,35 @@ namespace project1PEA
 {
     class TabuSearch : ProblemInstance
     {
-        public int TabuLenght { get; set; }
+        //public int TabuLenght { get; set; }
         public int NumberOfTweaks { get; set; }
-        public int LastChangeIteration { get; set; }
         public int Iterator { get; set; }
+        public int LastChangeIteration { get; set; }
         public int RestartIteration { get; set; }
         public int DiversifyFactor { get; set; }
-        public int BufferSize { get; set; }
+       // public int BufferSize { get; set; }
+        public int Cadency { get; set; }
         public List<int> Solution { get; set; }
         public List<int> BaseSolution { get; set; }
         public List<List<int>> SolutionsList { get; set; }
         public List<int[]> Path { get; set; }
         public List<TabuElement> TabuList { get; set; }
-
-        public TabuSearch(int tabuLenght, int numberOfTweaks,int bufferSize = 5, int cities = 0, WorldMap wm = null)
+        private readonly Random _rn;
+        public TabuSearch(int numberOfTweaks,int cadency = 0, int divFactor = 0, /*int bufferSize = 5,*/ int cities = 0, WorldMap wm = null)
         {
             WorldMap = cities == 0 ? wm : new WorldMap(cities);
+            DiversifyFactor = divFactor != 0 ? divFactor : (int)Math.Floor((double)WorldMap.Cities*3.0);
+            Cadency = cadency != 0 ? cadency : (int) Math.Floor((double) WorldMap.Cities / 3.0); //TODO Check cadency auto lenght
             RestartIteration = 0;
             LastChangeIteration = 0;
-            TabuLenght = tabuLenght;
-            BufferSize = bufferSize;
+            //TabuLenght = tabuLenght;
+            //BufferSize = bufferSize;
             NumberOfTweaks = numberOfTweaks;
             Solution = new List<int>();
             BaseSolution = new List<int>();
             Path = new List<int[]>();
             WorldMap = new WorldMap(cities);
+            _rn = new Random();
         }
 
         public void Solve()
@@ -43,18 +47,41 @@ namespace project1PEA
             CreateBaseSolution();
             //Step 2
             var lastCandidate = Solution;
-            while (true) //TODO finish statement
+            while (Iterator < NumberOfTweaks) //TODO check finish statement
             {
                 //Step 3
-                var bestInNeighborhood= GetBestInNeighborhood(GenerateNeighborhood(lastCandidate));
+                var bestInNeighborhood = GetBestInNeighborhood(GenerateNeighborhood(new List<int>(lastCandidate)));
                 //Step 4
-                var changed = GetChangedPair(bestInNeighborhood,lastCandidate);
+                var changed = GetChangedPair(bestInNeighborhood, lastCandidate);
                 if (SearchOnTabuList(changed))
                 {
-                   
+                    //TODO Aspiration check
                 }
-
-
+                //Step 5
+                else if (CompareSolutions(bestInNeighborhood))
+                {
+                    Solution = new List<int>(bestInNeighborhood);
+                    lastCandidate = new List<int>(bestInNeighborhood);
+                    LastChangeIteration = Iterator;
+                    TabuList.Add(new TabuElement(new List<int>(changed),Cadency));
+                }
+                //Step 6
+                VerifyTabuList();
+                //Step 7
+                if (CriticalEvent())
+                {
+                    //Step 8
+                    lastCandidate = Restart();
+                    //Step 9
+                    if (CompareSolutions(lastCandidate))
+                    {
+                        TabuList.Add(new TabuElement(GetChangedPair(lastCandidate,Solution),Cadency));
+                        Solution = new List<int>(lastCandidate);
+                        LastChangeIteration = Iterator;
+                    }
+                }
+                   
+                Iterator++;
             }
         }
 
@@ -85,24 +112,20 @@ namespace project1PEA
             return (Iterator - LastChangeIteration > DiversifyFactor || Iterator - RestartIteration > DiversifyFactor);
         }
 
-        public void Restart() //if first candidate in buffer is equal current solution create random based solution
+        public List<int> Restart() //if first candidate in buffer is equal current solution create random based solution
         {
-            if (Solution != SolutionsList[0])
+            var output = new List<int>(Solution);
+            for (int i = (int)Math.Floor((double)Solution.Count / 2); i < Solution.Count; i++)
             {
-                Solution = SolutionsList[0];
-                AddToTabuBuffer(Solution);
-            }
-            else
-            {
-                Random rn  = new Random();
-                for (int i = (int)Math.Floor((double)Solution.Count / 2); i < Solution.Count; i++)
+                do
                 {
-                    do
-                    {
-                        Solution[i] = rn.Next(0, Solution.Count - 1);
-                    } while (CheckPreviousApperance(i));
-                }
+                    output[i] = _rn.Next(0, output.Count - 1);
+                } while (CheckPreviousApperance(i));
             }
+
+            RestartIteration = Iterator;
+            LastChangeIteration = Iterator;
+            return output;
         }
 
         public bool CheckPreviousApperance(int index)
@@ -138,7 +161,7 @@ namespace project1PEA
             var currentBestValue = double.MaxValue;
             foreach (var solution in hood)
             {
-                if(GetSolutionCost(solution) < currentBestValue) bestInHood = new List<int>(solution);
+                if (GetSolutionCost(solution) < currentBestValue) bestInHood = new List<int>(solution);
             }
             return bestInHood;
         }
@@ -153,7 +176,7 @@ namespace project1PEA
             return cost;
         }
 
-        
+
         public void AddToTabuBuffer(List<int> solution) //FIFO buffer: 2,3,6.add(4) -> 3,6,4 
         {
             if (SolutionsList.Count >= 5)
@@ -161,7 +184,7 @@ namespace project1PEA
             SolutionsList.Add(solution);
         }
 
-        public bool CompareSolutions(List<int> candidate)
+        public bool CompareSolutions(List<int> candidate) //tru if candidate is better
         {
             return GetSolutionCost(Solution) > GetSolutionCost(candidate);
         }
@@ -189,9 +212,9 @@ namespace project1PEA
             return false;
         }
 
-        public bool CheckAspiration(List<int> pair)
+        public void CheckAspiration(List<int> pair)
         {
-            return (WorldMap.CityMatrix[pair[0],pair[0]+1])
+            
         }
     }
 }
