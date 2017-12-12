@@ -19,6 +19,17 @@ namespace project1PEA
                 {1,6,2,INF,7 },
                 {8,3,4,7, INF}
             };
+            for (int i = 200000; i < 500000; i+= 100000)
+            {
+                WorldMap map = new WorldMap(@"C:\br17.xml", false);
+                TabuSearch tabu = new TabuSearch(i, 0, 45, 0, map);
+                Console.WriteLine("Start Solving for tabu" + i);
+                tabu.Solve();
+                tabu.SolutionToPath();
+                tabu.PrintPath(tabu.Path);
+                Console.WriteLine("Cost :" + tabu.GetSolutionCost(tabu.Solution));
+            }
+            
             /* //TEST UI - READ FROM FILE AND DO SINGLE TEST
             Console.WriteLine("Podaj sciezke pliku xml:");
             string file = Console.ReadLine();

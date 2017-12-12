@@ -19,7 +19,6 @@ namespace project1PEA
        // public int BufferSize { get; set; }
         public int Cadency { get; set; }
         public List<int> Solution { get; set; }
-        public List<int> BaseSolution { get; set; }
         public List<List<int>> SolutionsList { get; set; }
         public List<int[]> Path { get; set; }
         public List<TabuElement> TabuList { get; set; }
@@ -28,16 +27,15 @@ namespace project1PEA
         {
             WorldMap = cities == 0 ? wm : new WorldMap(cities);
             DiversifyFactor = divFactor != 0 ? divFactor : (int)Math.Floor((double)WorldMap.Cities*3.0);
-            Cadency = cadency != 0 ? cadency : (int) Math.Floor((double) WorldMap.Cities / 3.0); //TODO Check cadency auto lenght
+            Cadency = cadency != 0 ? cadency : (int) Math.Floor((double) WorldMap.Cities * 3.0); 
             RestartIteration = 0;
             LastChangeIteration = 0;
             //TabuLenght = tabuLenght;
             //BufferSize = bufferSize;
             NumberOfTweaks = numberOfTweaks;
             Solution = new List<int>();
-            BaseSolution = new List<int>();
             Path = new List<int[]>();
-            WorldMap = new WorldMap(cities);
+            TabuList = new List<TabuElement>();
             _rn = new Random();
         }
 
@@ -115,24 +113,30 @@ namespace project1PEA
         public List<int> Restart() //if first candidate in buffer is equal current solution create random based solution
         {
             var output = new List<int>(Solution);
-            for (int i = (int)Math.Floor((double)Solution.Count / 2); i < Solution.Count; i++)
+            for (int i = (int)Math.Floor((double)Solution.Count / 3); i < Solution.Count-1; i++)
+            {
+                output[i] = 0;
+            }
+            for (int i = (int)Math.Floor((double)Solution.Count / 3); i < Solution.Count - 1; i++)
             {
                 do
                 {
-                    output[i] = _rn.Next(0, output.Count - 1);
-                } while (CheckPreviousApperance(i));
+                  output[i] = _rn.Next(1, output.Count-1);
+                } while (CheckPreviousApperance(i, output));
             }
+            
 
             RestartIteration = Iterator;
             LastChangeIteration = Iterator;
             return output;
         }
 
-        public bool CheckPreviousApperance(int index)
+        public bool CheckPreviousApperance(int index, List<int> listToCheck)
         {
-            for (int i = 0; i < index; i++)
+            for (int i = 0; i < listToCheck.Count-1; i++)
             {
-                if (Solution[i] == Solution[index]) return true;
+                if (i == index) continue;
+                if (listToCheck[i] == listToCheck[index]) return true;
             }
             return false;
         }
@@ -140,9 +144,9 @@ namespace project1PEA
         public List<List<int>> GenerateNeighborhood(List<int> solution) //generating by Vertex Exchange (VertexEx)
         {
             List<List<int>> hood = new List<List<int>>();
-            for (int i = 0; i < solution.Count; i++)
+            for (int i = 1; i < solution.Count-1; i++) //First and last element of path are always the same, start vertex
             {
-                for (int j = 0; j < solution.Count; j++)
+                for (int j = 1; j < solution.Count-1; j++)
                 {
                     if (i == j) continue;
                     List<int> tmpSolution = new List<int>(solution);
@@ -166,12 +170,12 @@ namespace project1PEA
             return bestInHood;
         }
 
-        public double GetSolutionCost(List<int> solutions)
+        public double GetSolutionCost(List<int> solution)
         {
             var cost = 0.0;
             for (int i = 0; i < Solution.Count - 1; i++)
             {
-                cost += WorldMap.CityMatrix[Solution[i], Solution[i + 1]];
+                cost += WorldMap.CityMatrix[solution[i], solution[i + 1]];
             }
             return cost;
         }
