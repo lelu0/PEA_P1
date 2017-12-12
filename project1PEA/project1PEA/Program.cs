@@ -10,6 +10,15 @@ namespace project1PEA
     {
         static void Main(string[] args)
         {
+            const double INF = double.MaxValue;
+            var sampleMap = new double[5, 5]
+            {
+                {INF,1,9,1,8 },
+                {1,INF,3,6,3 },
+                {9,3,INF,2,4 },
+                {1,6,2,INF,7 },
+                {8,3,4,7, INF}
+            };
             /* //TEST UI - READ FROM FILE AND DO SINGLE TEST
             Console.WriteLine("Podaj sciezke pliku xml:");
             string file = Console.ReadLine();
@@ -26,6 +35,7 @@ namespace project1PEA
             Tests test = new Tests(@"C:\gr17.xml",true);
             test.DoSeriesTest(50, false, false, true);
             */
+            /*
             WorldMap wm = new WorldMap(20);
             TabuSearch tbSearch = new TabuSearch(wm,2,2);
             tbSearch.TabuList = new List<TabuElement>();
@@ -36,7 +46,7 @@ namespace project1PEA
             Console.WriteLine("Done");
             tbSearch.SolutionToPath();
             tbSearch.PrintPath(tbSearch.Path);
-
+            */
             Console.ReadLine();
         }
     }
