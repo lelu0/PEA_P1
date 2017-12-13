@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace project1PEA
 {
-    class TabuSearch : ProblemInstance
+    public class TabuSearch : ProblemInstance
     {
         //public int TabuLenght { get; set; }
         public int NumberOfTweaks { get; set; }
@@ -113,11 +113,11 @@ namespace project1PEA
         public List<int> Restart() //if first candidate in buffer is equal current solution create random based solution
         {
             var output = new List<int>(Solution); //TODO Try from i = 0;
-            for (int i = (int)Math.Floor((double)Solution.Count / 3); i < Solution.Count-1; i++)
+            for (int i = (int)Math.Floor((double)Solution.Count / 2); i < Solution.Count-1; i++)
             {
                 output[i] = 0;
             }
-            for (int i = (int)Math.Floor((double)Solution.Count / 3); i < Solution.Count - 1; i++)
+            for (int i = (int)Math.Floor((double)Solution.Count / 2); i < Solution.Count - 1; i++)
             {
                 do
                 {

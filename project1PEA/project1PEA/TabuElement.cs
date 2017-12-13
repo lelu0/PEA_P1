@@ -2,7 +2,7 @@
 
 namespace project1PEA
 {
-    internal class TabuElement
+    public class TabuElement
     {
         public List<int> Pair { get; set; }
         public int Cadence { get; set; }
