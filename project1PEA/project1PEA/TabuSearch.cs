@@ -53,15 +53,14 @@ namespace project1PEA
                 var changed = GetChangedPair(bestInNeighborhood, lastCandidate);
                 if (SearchOnTabuList(changed))
                 {
-                    //TODO Aspiration check
+                    var aspirationCost = GetSolutionCost(bestInNeighborhood);
+                    if (aspirationCost + aspirationCost / 30 < GetSolutionCost(Solution))
+                        lastCandidate = SetNewGlobalBest(bestInNeighborhood, changed);
                 }
                 //Step 5
                 else if (CompareSolutions(bestInNeighborhood))
                 {
-                    Solution = new List<int>(bestInNeighborhood);
-                    lastCandidate = new List<int>(bestInNeighborhood);
-                    LastChangeIteration = Iterator;
-                    TabuList.Add(new TabuElement(new List<int>(changed),Cadency));
+                    lastCandidate = SetNewGlobalBest(bestInNeighborhood, changed);
                 }
                 //Step 6
                 VerifyTabuList();
@@ -83,6 +82,7 @@ namespace project1PEA
             }
         }
 
+    
         public void CreateBaseSolution()
         {
             Solution = SalesmanAlgorithm.Greedy(WorldMap.CityMatrix, WorldMap.Cities);
@@ -112,7 +112,7 @@ namespace project1PEA
 
         public List<int> Restart() //if first candidate in buffer is equal current solution create random based solution
         {
-            var output = new List<int>(Solution);
+            var output = new List<int>(Solution); //TODO Try from i = 0;
             for (int i = (int)Math.Floor((double)Solution.Count / 3); i < Solution.Count-1; i++)
             {
                 output[i] = 0;
@@ -215,10 +215,13 @@ namespace project1PEA
             }
             return false;
         }
-
-        public void CheckAspiration(List<int> pair)
+        
+        public List<int> SetNewGlobalBest(List<int> candidate, List<int> changed)
         {
-            
+            Solution = new List<int>(candidate);
+            LastChangeIteration = Iterator;
+            TabuList.Add(new TabuElement(new List<int>(changed), Cadency));
+            return new List<int>(candidate);
         }
     }
 }
