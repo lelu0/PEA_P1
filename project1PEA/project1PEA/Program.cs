@@ -27,10 +27,10 @@ namespace project1PEA
                 tabu.PrintPath(tabu.Path);
                 Console.WriteLine("Cost :" + tabu.GetSolutionCost(tabu.Solution));*/
             
-            Tests Test = new Tests(@"C:\burma14.xml");
-            Test.DoSeriesTestTabu(10, true, false, true);
+           // Tests Test = new Tests(@"C:\ftv33.xml",false);
+           // Test.DoSeriesTestTabu(5, true, false, true);
             
-            /* //TEST UI - READ FROM FILE AND DO SINGLE TEST
+             //TEST UI - READ FROM FILE AND DO SINGLE TEST
             Console.WriteLine("Podaj sciezke pliku xml:");
             string file = Console.ReadLine();
             Console.WriteLine("Czy startowe miasto w zapisie jest pominiete? true/false");
@@ -40,7 +40,7 @@ namespace project1PEA
             Tests test = new Tests(file,skiped);
             //Tests test = new Tests(30);
             //Console.WriteLine("Test for ftv33");
-            test.DoSeriesTest(1, true, false ,false);*/
+            test.DoSeriesTestTabu(1, true, false ,false);
 
             /* //TEST FOR INSTANCE FROM TSPLIB
             Tests test = new Tests(@"C:\gr17.xml",true);

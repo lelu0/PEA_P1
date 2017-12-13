@@ -10,6 +10,7 @@ namespace project1PEA
         public ProblemInstance ProblemInstance { get; set; }
         public TabuSearch TabuSearch { get; set; }
         public int Cities { get; set; }
+        private WorldMap _map;
 
         public Tests(string filePath, bool skipStartCity = true, bool tabu = true)
         {
@@ -17,9 +18,8 @@ namespace project1PEA
                 ProblemInstance = new ProblemInstance(new WorldMap(filePath, skipStartCity));
             else
             {
-                WorldMap map = new WorldMap(filePath,skipStartCity);
-                TabuSearch = new TabuSearch(100000, 0, 50, 0, map);
-                
+                _map = new WorldMap(filePath,skipStartCity);
+                TabuSearch = new TabuSearch(100000, 0, 50, 0, _map);
             }
                 
                 
@@ -84,12 +84,20 @@ namespace project1PEA
                 watch.Stop();
                 double elapsedMs = watch.ElapsedMilliseconds;
                 if (printResults)
-                    Console.WriteLine("Test " + i + ": " + elapsedMs + " ms" + " at " + DateTime.Now + "Result: " + TabuSearch.GetSolutionCost(TabuSearch.Solution));
+                {
+                    TabuSearch.SolutionToPath();
+                    TabuSearch.PrintPath(TabuSearch.Path);
+                    Console.WriteLine("Test " + i + ": " + elapsedMs + " ms" + " at " + DateTime.Now + "Result: " +
+                                      TabuSearch.GetSolutionCost(TabuSearch.Solution));
+                }
                 results.Add(elapsedMs);
                 if (generateResultCsv)
-                    resultFile.WriteLine(elapsedMs);
+                    resultFile.WriteLine(elapsedMs+","+ TabuSearch.GetSolutionCost(TabuSearch.Solution));
                 if (generateNewMap)
                     TabuSearch.WorldMap = new WorldMap(TabuSearch.WorldMap.Cities);
+                else
+                    TabuSearch = new TabuSearch(100000, 0, 50, 0, _map);
+                
             }
             if (generateResultCsv) resultFile.Close();
             return results;
