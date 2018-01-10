@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="project1PEA.TabuSearch">
+    <Position X="3.5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>EAAQADAQAAAAAAMgkICAgB6oCAAAAAgAACAAAAAACAA=</HashCode>
+      <FileName>TabuSearch.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="project1PEA.TabuElement">
+    <Position X="6.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAgAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TabuElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="project1PEA.Tests">
+    <Position X="8" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAIUEAAAAEAAAA=</HashCode>
+      <FileName>Tests.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

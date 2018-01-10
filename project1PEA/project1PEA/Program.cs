@@ -31,7 +31,7 @@ namespace project1PEA
            // Test.DoSeriesTestTabu(5, true, false, true);
             
              //TEST UI - READ FROM FILE AND DO SINGLE TEST
-            Console.WriteLine("Podaj sciezke pliku xml:");
+           /* Console.WriteLine("Podaj sciezke pliku xml:");
             string file = Console.ReadLine();
             Console.WriteLine("Czy startowe miasto w zapisie jest pominiete? true/false");
             string skip = Console.ReadLine();
@@ -41,6 +41,7 @@ namespace project1PEA
             //Tests test = new Tests(30);
             //Console.WriteLine("Test for ftv33");
             test.DoSeriesTestTabu(1, true, false ,false);
+            */
 
             /* //TEST FOR INSTANCE FROM TSPLIB
             Tests test = new Tests(@"C:\gr17.xml",true);
@@ -58,6 +59,7 @@ namespace project1PEA
             tbSearch.SolutionToPath();
             tbSearch.PrintPath(tbSearch.Path);
             */
+            Population p = new Population();
             Console.ReadLine();
         }
     }
