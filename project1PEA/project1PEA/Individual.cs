@@ -29,6 +29,18 @@ namespace project1PEA
 
         public Individual() { }
 
+        public Individual(Random rn, int pathLength)
+        {
+            Path = new List<int>();
+            Path.Add(0);
+            while (Path.Count < pathLength-1)
+            {
+                var rand = rn.Next(1, pathLength - 1);
+                if(Path.IndexOf(rand) == -1)
+                    Path.Add(rand);
+            }
+            Path.Add(0);
+        }
         public void Mutation(Random rn)
         {
             if (rn.Next(0, 101) > 10) return;
@@ -37,5 +49,25 @@ namespace project1PEA
             Path[positions[0]] = Path[positions[1]];
             Path[positions[1]] = tmp;
         }
+
+        public double GetIndividualCost(double[,] cityMatrix)
+        {
+            var cost = 0.0;
+            for (int i = 0; i < Path.Count - 1; i++)
+            {
+                cost += cityMatrix[Path[i], Path[i + 1]];
+            }
+            return cost;
+        }
+
+        public void PrintPath(List<int> path)
+        {
+            foreach (var p in path)
+            {
+                Console.Write(p + " -> " );
+            }
+            Console.WriteLine();
+        }
+       
     }
 }

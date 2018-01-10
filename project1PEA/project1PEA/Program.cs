@@ -19,7 +19,7 @@ namespace project1PEA
                 {1,6,2,INF,7 },
                 {8,3,4,7, INF}
             };
-                /*WorldMap map = new WorldMap(@"C:\gr21.xml");
+               /* WorldMap map = new WorldMap(sampleMap);
                 TabuSearch tabu = new TabuSearch(1000000, 0, 62, 0, map);
                 Console.WriteLine("Start Solving for tabu ");
                 tabu.Solve();
@@ -59,7 +59,11 @@ namespace project1PEA
             tbSearch.SolutionToPath();
             tbSearch.PrintPath(tbSearch.Path);
             */
-            Population p = new Population();
+            //Population p = new Population();
+            GeneticAlgorithm ga = new GeneticAlgorithm(1000,1000,1000,new WorldMap(@"C:\gr21.xml"));
+            ga.Solve();
+            ga.Best.PrintPath(ga.Best.Path);
+            Console.WriteLine(ga.Best.GetIndividualCost(ga.Population.WorldMap.CityMatrix));
             Console.ReadLine();
         }
     }

@@ -8,20 +8,60 @@ namespace project1PEA
 {
     class Population
     {
-        private Random rn;
+        const double INF = double.MaxValue;
+        public Random rn;
         public List<Individual> Individuals;
         public int PathLength;
-
+        public WorldMap WorldMap;
         public Population()
         {
+            WorldMap = new WorldMap(new double[5, 5]
+            {
+                {INF,1,9,1,8 },
+                {1,INF,3,6,3 },
+                {9,3,INF,2,4 },
+                {1,6,2,INF,7 },
+                {8,3,4,7, INF}
+            });
             rn = new Random();
             Individuals = new List<Individual>()
             {
-                new Individual(new List<int>() { 0,1,2,3,4,5,6,0}),
-                new Individual(new List<int>() { 0,6,5,4,3,2,1,0})
+                new Individual(new List<int>() { 0,1,2,3,4,0}),
+                new Individual(new List<int>() { 0,4,3,2,1,0})
             };
             PathLength = Individuals[0].Path.Count;
             CrossOverIndividuals(Individuals.ToArray());
+        }
+
+        public Population(int size)
+        {
+            WorldMap = new WorldMap(new double[5, 5]
+            {
+                {INF,1,9,1,8 },
+                {1,INF,3,6,3 },
+                {9,3,INF,2,4 },
+                {1,6,2,INF,7 },
+                {8,3,4,7, INF}
+            });
+            rn = new Random();
+            Individuals = new List<Individual>();
+            for (int i = 0; i < size; i++)
+            {
+                Individuals.Add(new Individual(rn,WorldMap.Cities+1));
+            }
+            PathLength = Individuals[0].Path.Count;
+        }
+
+        public Population(int size, WorldMap wm)
+        {
+            WorldMap = wm;
+            rn = new Random();
+            Individuals = new List<Individual>();
+            for (int i = 0; i < size; i++)
+            {
+                Individuals.Add(new Individual(rn, WorldMap.Cities + 1));
+            }
+            PathLength = Individuals[0].Path.Count;
         }
 
         public Individual[] CrossOverIndividuals(Individual[] parents)
@@ -72,7 +112,6 @@ namespace project1PEA
         }
         
 
-
         private int[] GetCrossingIndexes(int length)
         {
 
@@ -98,6 +137,46 @@ namespace project1PEA
         private int CheckIndexOverflow(int current)
         {
             return current + 1 < PathLength - 1 ? current + 1 : 1;
+        }
+
+        public Individual GetRandomIndividual()
+        {
+            return Individuals[rn.Next(0, Individuals.Count)];
+        }
+
+        public Individual[] Tournament(int tournamentSize)
+        {
+            var selected = new Individual[2]{GetRandomIndividual(),GetRandomIndividual()};
+            //sort individuals on list
+
+            if (selected[0].GetIndividualCost(WorldMap.CityMatrix) > selected[1].GetIndividualCost(WorldMap.CityMatrix))
+            {
+                var tmp = selected[1];
+                selected[1] = selected[0];
+                selected[0] = tmp;
+            }
+            for (int i = 2; i < tournamentSize; i++)
+            {
+                var candidate = GetRandomIndividual();
+                if (candidate.GetIndividualCost(WorldMap.CityMatrix) <
+                    selected[0].GetIndividualCost(WorldMap.CityMatrix))
+                {
+                    selected[1] = selected[0];
+                    selected[0] = candidate;
+                }
+            }
+            return selected;
+        }
+
+        public Individual GetBestIndividual()
+        {
+            var tmp = Individuals[0];
+            foreach (var individual in Individuals)
+            {
+                if (individual.GetIndividualCost(WorldMap.CityMatrix) < tmp.GetIndividualCost(WorldMap.CityMatrix))
+                    tmp = individual;
+            }
+            return tmp;
         }
     }
 }
