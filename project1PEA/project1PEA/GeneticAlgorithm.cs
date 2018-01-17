@@ -35,7 +35,7 @@ namespace project1PEA
             while (iterator < NumberOfIterations) //TODO End condition - find better if possible
             {
                 iterator++;
-                Console.WriteLine(iterator + ";" + best.GetIndividualCost(Population.WorldMap.CityMatrix));
+                //Console.WriteLine(iterator + ";" + best.GetIndividualCost(Population.WorldMap.CityMatrix));
                 //Generating next population
                 var newPopulation = new List<Individual>();
                 for (int i = 0; i < Population.Individuals.Count/2; i++)

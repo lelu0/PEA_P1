@@ -60,11 +60,109 @@ namespace project1PEA
             tbSearch.PrintPath(tbSearch.Path);
             */
             //Population p = new Population();
-            GeneticAlgorithm ga = new GeneticAlgorithm(1000,1000,1000,new WorldMap(@"C:\gr21.xml"));
-            ga.Solve();
-            ga.Best.PrintPath(ga.Best.Path);
-            Console.WriteLine(ga.Best.GetIndividualCost(ga.Population.WorldMap.CityMatrix));
+            //GeneticAlgorithm ga = new GeneticAlgorithm(500,10,300,new WorldMap(@"C:\gr21.xml"));
+            GeneticTests gt = new GeneticTests(1500, 6, 300, new WorldMap(@"C:\gr21.xml")); //opt parameters for gr21, br 17
+            /*
+            Console.WriteLine("burma 14-------------------------------");
+            for (int i = 1000; i <= 2000; i+= 500)
+            {
+                for (int j = 6; j < 50; j+=20)
+                {
+                    for (int k = 200; k < 500; k+=100)
+                    {
+                        Console.WriteLine(i + ";" + j + ";" + k);
+                        gt = new GeneticTests(i, 6, 300, new WorldMap(@"C:\burma14.xml"));
+                        var ang = gt.GetAverageCost(20);
+                        Console.WriteLine(ang);
+                    }
+                    
+                }
+            }
+            Console.WriteLine("gr24-------------------------------");
+            for (int i = 1000; i <= 2000; i += 500)
+            {
+                for (int j = 6; j < 50; j += 20)
+                {
+                    for (int k = 200; k < 500; k += 100)
+                    {
+                        Console.WriteLine(i + ";" + j + ";" + k);
+                        gt = new GeneticTests(i, 6, 300, new WorldMap(@"C:\gr24.xml"));
+                        var ang = gt.GetAverageCost(20);
+                        Console.WriteLine(ang);
+                    }
+
+                }
+            }
+            
+            Console.WriteLine("ftv33-------------------------------");
+            for (int i = 1000; i <= 2000; i += 500)
+            {
+                for (int j = 6; j < 50; j += 20)
+                {
+                    for (int k = 200; k < 500; k += 100)
+                    {
+                        Console.WriteLine(i + ";" + j + ";" + k);
+                        gt = new GeneticTests(i, j, k, new WorldMap(@"C:\ftv33.xml",false));
+                        var ang = gt.GetAverageCost(20);
+                        Console.WriteLine(ang);
+                    }
+
+                }
+            }
+            Console.WriteLine("ftv38-------------------------------");
+            for (int i = 1000; i <= 2000; i += 500)
+            {
+                for (int j = 6; j < 50; j += 20)
+                {
+                    for (int k = 200; k < 500; k += 100)
+                    {
+                        Console.WriteLine(i + ";" + j + ";" + k);
+                        gt = new GeneticTests(i, j, k, new WorldMap(@"C:\ftv38.xml",false));
+                        var ang = gt.GetAverageCost(20);
+                        Console.WriteLine(ang);
+                    }
+
+                }
+            }
+            Console.WriteLine("p43-------------------------------");
+            for (int i = 1000; i <= 2000; i += 500)
+            {
+                for (int j = 6; j < 50; j += 20)
+                {
+                    for (int k = 200; k < 500; k += 100)
+                    {
+                        Console.WriteLine(i + ";" + j + ";" + k);
+                        gt = new GeneticTests(i, j, k, new WorldMap(@"C:\p43.xml",false));
+                        var ang = gt.GetAverageCost(20);
+                        Console.WriteLine(ang);
+                    }
+
+                }
+            }
+            */
+            
+       
+            //TEST UI - READ FROM FILE AND DO SINGLE TEST
+             Console.WriteLine("Podaj sciezke pliku xml:");
+             string file = Console.ReadLine();
+             Console.WriteLine("Czy startowe miasto w zapisie jest pominiete? true/false");
+             string skip = Console.ReadLine();
+             Console.WriteLine("Podaj wielkosc populacji");
+            string i = Console.ReadLine();
+            Console.WriteLine("Podaj wielkosc puli turniejowej");
+            string t = Console.ReadLine();
+            Console.WriteLine("Podaj ilosc pokolen");
+            string p = Console.ReadLine();
+            Console.WriteLine("Podaj ilosc wykonan do usrednienia wyniku");
+            string n = Console.ReadLine();
+            bool skiped;
+            bool.TryParse(skip, out skiped);
+            gt = new GeneticTests(int.Parse(i), int.Parse(t), int.Parse(p), new WorldMap(file,skiped));
+            var ang = gt.GetAverageCost(int.Parse(n));
+            Console.WriteLine(ang);
             Console.ReadLine();
+
+
         }
     }
 }

@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="EmptyMatrixException.cs" />
     <Compile Include="GeneticAlgorithm.cs" />
+    <Compile Include="GeneticTests.cs" />
     <Compile Include="Individual.cs" />
     <Compile Include="LiveNode.cs" />
     <Compile Include="MathUtils.cs" />
@@ -61,6 +62,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

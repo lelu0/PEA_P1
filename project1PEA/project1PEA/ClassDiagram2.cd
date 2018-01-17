@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="project1PEA.Individual">
+    <Position X="2.75" Y="1.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAIAAAAAAAAAE=</HashCode>
+      <FileName>Individual.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="project1PEA.GeneticAlgorithm">
+    <Position X="5.75" Y="1.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAEAAAAIAAAIAAAoIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GeneticAlgorithm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="project1PEA.Population">
+    <Position X="2.75" Y="3.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>QgAEAIAAAAQAAAAAAAAIAAAAMAAIAAAAAAAAAAAEIAA=</HashCode>
+      <FileName>Population.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

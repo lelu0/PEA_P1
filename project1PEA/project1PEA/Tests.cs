@@ -21,8 +21,6 @@ namespace project1PEA
                 _map = new WorldMap(filePath,skipStartCity);
                 TabuSearch = new TabuSearch(100000, 0, 50, 0, _map);
             }
-                
-                
             
         }
 
